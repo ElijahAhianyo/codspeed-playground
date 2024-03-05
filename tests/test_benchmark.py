@@ -12,7 +12,6 @@
 #     assert 1 + 1 == 2
 
 import pytest
-
 import numba
 from pathlib import Path
 from typing import Any, Callable, cast
@@ -114,12 +113,3 @@ def _load_py_snapshot(fn: Callable, var: str | None = None) -> Any:
     else:
         exec(contents, globals)
         return globals[var]
-
-@pytest.mark.benchmark
-def test_median_performance(benchmark):
-
-    benchmark(time.sleep, 5)
-
-
-def test_num():
-    assert 1 + 1 == 2
