@@ -11,12 +11,26 @@ on:
 
 jobs:
   benchmarks:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Show OS combos first in GUI
+        os: [ ubuntu-latest ]
+        python-version: [ '3.11.4' ]
+        node-version: [ '16.x' ]
+
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
         with:
           python-version: "3.11"
+
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -25,4 +39,4 @@ jobs:
         uses: CodSpeedHQ/action@v2
         with:
 #          token: ${{ secrets.CODSPEED_TOKEN }}
-          run: pytest tests/ --codspeed
+          run: pytest tests/
