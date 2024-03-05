@@ -1,11 +1,11 @@
 import pytest
 from statistics import median
 import time
-
-@pytest.mark.benchmark
+from src.main import first_func
+@pytest.mark.benchmark( min_rounds=10,)
 def test_median_performance(benchmark):
 
-    benchmark(time.sleep, 5)
+    benchmark(first_func)
 
 
 def test_num():
